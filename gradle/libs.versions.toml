@@ -6,6 +6,7 @@ compose = "1.9.2"
 composeMaterial3 = "1.4.0"
 composeMaterialIcons = "1.7.8"
 composeNavigation = "2.9.5"
+detekt = "1.23.8"
 kotlin = "2.2.20"
 minSDK = "24"
 targetSDK = "36"
@@ -18,9 +19,11 @@ composeNavigation = { module = "androidx.navigation:navigation-compose", version
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

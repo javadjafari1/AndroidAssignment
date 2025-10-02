@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -50,4 +51,5 @@ dependencies {
     implementation(libs.composeMaterialIcons)
     debugImplementation(libs.composeUiTooling)
     debugImplementation(libs.composeNavigation)
+    detektPlugins(libs.detektFormatting)
 }
