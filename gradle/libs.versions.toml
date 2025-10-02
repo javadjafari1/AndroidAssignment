@@ -1,0 +1,13 @@
+[versions]
+agp = "7.3.1"
+kotlin = "1.7.10"
+compileSDK = "33"
+targetSDK = "33"
+minSDK = "21"
+
+[libraries]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

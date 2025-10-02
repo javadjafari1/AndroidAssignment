@@ -1,16 +1,16 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
     namespace = "ir.miare.androidcodechallenge"
-    compileSdk = 33
+    compileSdk = libs.versions.compileSDK.get().toInt()
 
     defaultConfig {
         applicationId = "ir.miare.androidcodechallenge"
-        minSdk = 21
-        targetSdk = 33
+        minSdk = libs.versions.minSDK.get().toInt()
+        targetSdk = libs.versions.targetSDK.get().toInt()
         versionCode = 1
         versionName = "1.0"
 
