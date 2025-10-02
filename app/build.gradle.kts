@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.composeUi)
     implementation(libs.composeUiToolingPreview)
     implementation(libs.composeMaterial3)
+    implementation(libs.coroutinesAndroid)
     implementation(libs.composeMaterialIcons)
     implementation(libs.serialization)
     debugImplementation(libs.composeUiTooling)
