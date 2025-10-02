@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.compose)
 }
 
 android {
@@ -42,5 +43,11 @@ kotlin {
 }
 
 dependencies {
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(libs.activityCompose)
+    implementation(libs.composeUi)
+    implementation(libs.composeUiToolingPreview)
+    implementation(libs.composeMaterial3)
+    implementation(libs.composeMaterialIcons)
+    debugImplementation(libs.composeUiTooling)
+    debugImplementation(libs.composeNavigation)
 }
