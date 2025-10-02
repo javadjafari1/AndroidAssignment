@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
-import ir.miare.androidcodechallenge.theme.AppTheme
+import ir.miare.androidcodechallenge.ui.theme.AppTheme
 
 internal class MainActivity : ComponentActivity() {
 
@@ -19,7 +19,7 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 Scaffold {
-                    Column(Modifier.padding(it)) {
+                    Column(Modifier.Companion.padding(it)) {
                         Text("Hello Compose")
                     }
                 }

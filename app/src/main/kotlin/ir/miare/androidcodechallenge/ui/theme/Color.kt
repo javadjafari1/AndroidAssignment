@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.theme
+package ir.miare.androidcodechallenge.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
