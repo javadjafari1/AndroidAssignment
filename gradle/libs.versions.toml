@@ -7,7 +7,7 @@ composeMaterial3 = "1.4.0"
 composeMaterialIcons = "1.7.8"
 composeNavigation = "2.9.5"
 kotlin = "2.2.20"
-minSDK = "21"
+minSDK = "24"
 targetSDK = "36"
 
 [libraries]
