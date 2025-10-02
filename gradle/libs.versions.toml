@@ -1,8 +1,8 @@
 [versions]
-agp = "7.3.1"
-kotlin = "1.7.10"
-compileSDK = "33"
-targetSDK = "33"
+agp = "8.11.2"
+kotlin = "2.2.20"
+compileSDK = "36"
+targetSDK = "36"
 minSDK = "21"
 
 [libraries]
