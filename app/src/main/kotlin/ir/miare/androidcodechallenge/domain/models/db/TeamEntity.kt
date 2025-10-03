@@ -8,7 +8,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    "teams",
+    tableName = "teams",
     foreignKeys = [
         ForeignKey(
             entity = LeagueEntity::class,

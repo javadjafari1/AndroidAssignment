@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 internal interface Repository {
     suspend fun fetchData()
-    fun observePlayerWithTeam(id: Int): Flow<PlayerWithTeamAndFollowed?>
-    fun observeLeaguesWithPlayers(sortType: SortType): Flow<PagingData<ListDataItem>>
     suspend fun followPlayer(id: Int)
     suspend fun unfollowPlayer(id: Int)
+    fun observePlayerWithTeam(id: Int): Flow<PlayerWithTeamAndFollowed?>
+    fun observeLeaguesWithPlayers(sortType: SortType): Flow<PagingData<ListDataItem>>
     fun observeFollowedPlayers(): Flow<List<PlayerItemUiModel>>
 }

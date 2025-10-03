@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity("leagues")
+@Entity(tableName = "leagues")
 internal data class LeagueEntity(
     @PrimaryKey
     val id: Int,

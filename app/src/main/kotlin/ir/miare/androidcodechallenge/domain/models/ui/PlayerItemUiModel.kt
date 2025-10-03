@@ -1,6 +1,6 @@
 package ir.miare.androidcodechallenge.domain.models.ui
 
-data class PlayerItemUiModel(
+internal data class PlayerItemUiModel(
     val id: Int,
     val name: String,
     val teamRank: Int,
