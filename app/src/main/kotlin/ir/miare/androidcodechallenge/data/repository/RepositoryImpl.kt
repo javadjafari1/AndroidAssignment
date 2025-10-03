@@ -3,6 +3,7 @@ package ir.miare.androidcodechallenge.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.filter
 import androidx.paging.insertSeparators
 import androidx.paging.map
 import ir.miare.androidcodechallenge.data.local.LocalDataSource
@@ -64,53 +65,76 @@ internal class RepositoryImpl(
             )
         ).flow
             .map { pagingData ->
-                pagingData.map { row ->
-                    when (sortType) {
-                        SortType.TeamAndLeagueRank,
-                        SortType.MostGoals,
-                        SortType.None -> {
-                            PlayerItemDataModel(
-                                id = row.playerId ?: 0,
-                                name = row.playerName.orEmpty(),
-                                teamRank = row.teamRank ?: -1, // safer fallback
-                                goals = row.totalGoals,
-                                teamName = row.teamName.orEmpty(),
-                                leagueId = row.leagueId,
-                                leagueName = row.leagueName,
-                                leagueRank = row.leagueRank
-                            )
-                        }
-
-                        SortType.AverageGoalPerMatchOfLeague -> {
-                            LeagueItemDataModel(
-                                id = row.leagueId,
-                                rank = row.leagueRank,
-                                name = row.leagueName,
-                                averageGoal = (row.avgGoals ?: 0.0).let {
-                                    round(it * 100) / 100.0
-                                }
-                            )
+                pagingData
+                    .filter { row ->
+                        if (sortType == SortType.TeamAndLeagueRank ||
+                            sortType == SortType.MostGoals ||
+                            sortType == SortType.None
+                        ) {
+                            row.playerId != null &&
+                                row.playerName != null &&
+                                row.teamName != null &&
+                                row.teamRank != null
+                        } else {
+                            true
                         }
                     }
-                }.insertSeparators { before, after ->
-                    if (after is PlayerItemDataModel) {
-                        val newLeague = before == null ||
-                            (before as? PlayerItemDataModel)?.leagueId != after.leagueId
+                    .map { row ->
+                        when (sortType) {
+                            SortType.TeamAndLeagueRank,
+                            SortType.MostGoals,
+                            SortType.None -> {
+                                PlayerItemDataModel(
+                                    id = requireNotNull(row.playerId) {
+                                        "playerId supposed to be not null but was null"
+                                    },
+                                    name = requireNotNull(row.playerName) {
+                                        "playerName supposed to be not null but was null"
+                                    },
+                                    teamRank = requireNotNull(row.teamRank) {
+                                        "teamRank supposed to be not null but was null"
+                                    },
+                                    goals = row.totalGoals,
+                                    teamName = requireNotNull(row.teamName) {
+                                        "teamName supposed to be not null but was null"
+                                    },
+                                    leagueId = row.leagueId,
+                                    leagueName = row.leagueName,
+                                    leagueRank = row.leagueRank
+                                )
+                            }
 
-                        if (newLeague && sortType != SortType.MostGoals) {
-                            LeagueItemDataModel(
-                                id = after.leagueId,
-                                name = after.leagueName,
-                                rank = after.leagueRank,
-                                averageGoal = null
-                            )
+                            SortType.AverageGoalPerMatchOfLeague -> {
+                                LeagueItemDataModel(
+                                    id = row.leagueId,
+                                    rank = row.leagueRank,
+                                    name = row.leagueName,
+                                    averageGoal = (row.avgGoals ?: 0.0).let {
+                                        round(it * 100) / 100.0
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    .insertSeparators { before, after ->
+                        if (after is PlayerItemDataModel) {
+                            val newLeague = before == null ||
+                                (before as? PlayerItemDataModel)?.leagueId != after.leagueId
+
+                            if (newLeague && sortType != SortType.MostGoals) {
+                                LeagueItemDataModel(
+                                    id = after.leagueId,
+                                    name = after.leagueName,
+                                    rank = after.leagueRank,
+                                    averageGoal = null
+                                )
+                            } else {
+                                null
+                            }
                         } else {
                             null
                         }
-                    } else {
-                        null
                     }
-                }
             }
             .filterNotNull()
     }

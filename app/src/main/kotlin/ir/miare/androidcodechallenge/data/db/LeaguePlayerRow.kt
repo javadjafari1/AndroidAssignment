@@ -1,6 +1,6 @@
 package ir.miare.androidcodechallenge.data.db
 
-data class LeaguePlayerRow(
+internal data class LeaguePlayerRow(
     val leagueId: Int,
     val leagueName: String,
     val leagueRank: Int,
