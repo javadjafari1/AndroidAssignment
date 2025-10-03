@@ -38,7 +38,6 @@ koinAndroidxCompose = { module = "io.insert-koin:koin-androidx-compose", version
 koinCore = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotestAssertion = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockkAndroid = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 pagingCompose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 pagingTesting = { module = "androidx.paging:paging-testing", version.ref = "paging" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -52,7 +51,6 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-kotest = { id = "io.kotest", version.ref = "kotest" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
