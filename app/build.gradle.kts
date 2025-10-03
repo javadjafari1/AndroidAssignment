@@ -14,6 +14,7 @@ android {
     namespace = "ir.miare.androidcodechallenge"
     compileSdk = libs.versions.compileSDK.get().toInt()
 
+    buildFeatures.buildConfig = true
     defaultConfig {
         applicationId = "ir.miare.androidcodechallenge"
         minSdk = libs.versions.minSDK.get().toInt()
@@ -72,11 +73,12 @@ dependencies {
 
     implementation(libs.pagingCompose)
     implementation(libs.roomRuntime)
+    implementation(libs.timber)
     implementation(libs.roomPaging)
+    implementation(libs.composeNavigation)
     ksp(libs.roomCompiler)
 
     debugImplementation(libs.composeUiTooling)
-    debugImplementation(libs.composeNavigation)
 
     detektPlugins(libs.detektFormatting)
 

@@ -10,11 +10,13 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import ir.miare.androidcodechallenge.core.Logger
 import ir.miare.androidcodechallenge.domain.models.SortType
 import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
 import ir.miare.androidcodechallenge.domain.repository.Repository
 import ir.miare.androidcodechallenge.domain.usecase.ObserveLeaguesWithPlayersUseCase
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
 internal class HomeViewModel(
     private val repository: Repository,
     private val observeLeaguesWithPlayersUseCase: ObserveLeaguesWithPlayersUseCase,
+    private val logger: Logger,
 ) : ViewModel() {
 
     var currentSortType by mutableStateOf(SortType.None)
@@ -35,6 +38,7 @@ internal class HomeViewModel(
     val items = snapshotFlow { currentSortType }
         .flatMapLatest { observeLeaguesWithPlayersUseCase(it) }
         .cachedIn(viewModelScope)
+        .catch { logger.e(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
@@ -58,6 +62,8 @@ internal class HomeViewModel(
                     .onEach { selectedPlayerToShow = it }
                     .launchIn(viewModelScope)
             }
+        }.onFailure {
+            logger.e(it)
         }
     }
 
@@ -67,10 +73,14 @@ internal class HomeViewModel(
 
     fun updateFollowStatus(shouldFollow: Boolean, id: Int) {
         viewModelScope.launch {
-            if (shouldFollow) {
-                repository.followPlayer(id)
-            } else {
-                repository.unfollowPlayer(id)
+            runCatching {
+                if (shouldFollow) {
+                    repository.followPlayer(id)
+                } else {
+                    repository.unfollowPlayer(id)
+                }
+            }.onFailure {
+                logger.e(it)
             }
         }
     }

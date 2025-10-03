@@ -1,9 +1,11 @@
 package ir.miare.androidcodechallenge
 
 import android.app.Application
+import ir.miare.androidcodechallenge.core.Logger
 import ir.miare.androidcodechallenge.data.di.dataModule
 import ir.miare.androidcodechallenge.domain.di.domainModule
 import ir.miare.androidcodechallenge.ui.di.viewModelModule
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,5 +20,7 @@ internal class App : Application() {
                 dataModule
             )
         }
+        val logger: Logger = get()
+        logger.setup()
     }
 }
