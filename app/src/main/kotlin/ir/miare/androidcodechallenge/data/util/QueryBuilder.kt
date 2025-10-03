@@ -44,7 +44,7 @@ internal class QueryBuilder(private val sortType: SortType) {
                 ORDER BY avgGoals DESC
             """.trimIndent()
 
-            SortType.None -> baseSelect
+            SortType.None -> "$baseSelect ORDER BY l.id ASC, p.total_goal DESC"
         }
     }
 }
