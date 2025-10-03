@@ -39,6 +39,7 @@ kotestAssertion = { module = "io.kotest:kotest-assertions-core", version.ref = "
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockkAndroid = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 pagingCompose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+pagingTesting = { module = "androidx.paging:paging-testing", version.ref = "paging" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 roomPaging = { module = "androidx.room:room-paging", version.ref = "room" }
 roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }

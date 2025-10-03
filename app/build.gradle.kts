@@ -84,4 +84,5 @@ dependencies {
     testImplementation(libs.kotestAssertion)
     testImplementation(libs.junit)
     testImplementation(libs.coroutinesTest)
+    testImplementation(libs.pagingTesting)
 }
