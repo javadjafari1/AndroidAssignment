@@ -12,14 +12,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import ir.miare.androidcodechallenge.core.Logger
 import ir.miare.androidcodechallenge.domain.models.SortType
-import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
 import ir.miare.androidcodechallenge.domain.repository.Repository
 import ir.miare.androidcodechallenge.domain.usecase.ObserveLeaguesWithPlayersUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -32,8 +30,22 @@ internal class HomeViewModel(
     var currentSortType by mutableStateOf(SortType.None)
         private set
 
-    var selectedPlayerToShow: PlayerWithTeamAndFollowed? by mutableStateOf(null)
-        private set
+    private var selectedPlayerId: Int? by mutableStateOf(null)
+
+    val selectedPlayerToShow = snapshotFlow { selectedPlayerId }
+        .flatMapLatest { id ->
+            if (id != null) {
+                repository.observePlayerWithTeam(id)
+            } else {
+                flowOf(null)
+            }
+        }
+        .catch { logger.e(it) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null
+        )
 
     val items = snapshotFlow { currentSortType }
         .flatMapLatest { observeLeaguesWithPlayersUseCase(it) }
@@ -56,19 +68,11 @@ internal class HomeViewModel(
     }
 
     fun getPlayerWithId(id: Int) {
-        runCatching {
-            viewModelScope.launch {
-                repository.observePlayerWithTeam(id)
-                    .onEach { selectedPlayerToShow = it }
-                    .launchIn(viewModelScope)
-            }
-        }.onFailure {
-            logger.e(it)
-        }
+        selectedPlayerId = id
     }
 
     fun removeSelectedPlayer() {
-        selectedPlayerToShow = null
+        selectedPlayerId = null
     }
 
     fun updateFollowStatus(shouldFollow: Boolean, id: Int) {

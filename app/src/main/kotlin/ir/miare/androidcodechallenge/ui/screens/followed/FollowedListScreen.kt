@@ -54,11 +54,12 @@ internal fun FollowedListScreen(
     val scope = rememberCoroutineScope()
     val players by viewModel.players.collectAsStateWithLifecycle()
     val detailSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val selectedPlayer by viewModel.selectedPlayerToShow.collectAsStateWithLifecycle()
 
     FollowedListScreen(
         players = players,
         onBackClicked = onBackClicked,
-        selectedPlayer = viewModel.selectedPlayerToShow,
+        selectedPlayer = selectedPlayer,
         detailSheetState = detailSheetState,
         onDetailBottomSheetDismissRequest = { viewModel.removeSelectedPlayer() },
         onPlayerClicked = { viewModel.getPlayerWithId(it) },

@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -59,6 +60,7 @@ internal fun HomeScreen(
     navigateToFollowedList: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    val selectedPlayer by viewModel.selectedPlayerToShow.collectAsStateWithLifecycle()
     val pagingItems = viewModel.items.collectAsLazyPagingItems()
     var isSortBottomSheetShowing by rememberSaveable { mutableStateOf(false) }
     val sortSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -84,7 +86,7 @@ internal fun HomeScreen(
                 }
         },
         openSortBottomSheet = { isSortBottomSheetShowing = true },
-        selectedPlayer = viewModel.selectedPlayerToShow,
+        selectedPlayer = selectedPlayer,
         detailSheetState = detailSheetState,
         onDetailBottomSheetDismissRequest = { viewModel.removeSelectedPlayer() },
         onPlayerClicked = { viewModel.getPlayerWithId(it) },

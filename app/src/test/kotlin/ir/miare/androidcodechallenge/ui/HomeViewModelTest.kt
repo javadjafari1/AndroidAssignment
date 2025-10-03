@@ -1,12 +1,14 @@
 package ir.miare.androidcodechallenge.ui
 
 import androidx.paging.PagingData
+import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
+import ir.miare.androidcodechallenge.core.Logger
 import ir.miare.androidcodechallenge.data.TestCoroutineRule
 import ir.miare.androidcodechallenge.domain.models.SortType
 import ir.miare.androidcodechallenge.domain.models.db.PlayerEntity
@@ -34,6 +36,9 @@ internal class HomeViewModelTest {
     @RelaxedMockK
     private lateinit var observeUseCase: ObserveLeaguesWithPlayersUseCase
 
+    @RelaxedMockK
+    private lateinit var logger: Logger
+
     private val fakePlayer = PlayerWithTeamAndFollowed(
         playerEntity = PlayerEntity(
             id = 1,
@@ -60,7 +65,7 @@ internal class HomeViewModelTest {
     fun `default state is correct`() {
         val viewModel = createSystem()
         viewModel.currentSortType shouldBe SortType.None
-        viewModel.selectedPlayerToShow shouldBe null
+        viewModel.selectedPlayerToShow.value shouldBe null
     }
 
     @Test
@@ -79,21 +84,27 @@ internal class HomeViewModelTest {
 
         advanceUntilIdle()
 
-        viewModel.selectedPlayerToShow shouldBe fakePlayer
+        viewModel.selectedPlayerToShow.test {
+            awaitItem() shouldBe fakePlayer
+        }
     }
 
     @Test
-    fun `removeSelectedPlayer clears selectedPlayerToShow`() {
+    fun `removeSelectedPlayer clears selectedPlayerToShow`() = runTest {
         val viewModel = createSystem()
         coEvery { repository.observePlayerWithTeam(1) } returns flowOf(fakePlayer)
 
         viewModel.getPlayerWithId(1)
 
-        viewModel.selectedPlayerToShow shouldBe fakePlayer
+        viewModel.selectedPlayerToShow.test {
+            awaitItem() shouldBe fakePlayer
+        }
 
         viewModel.removeSelectedPlayer()
 
-        viewModel.selectedPlayerToShow shouldBe null
+        viewModel.selectedPlayerToShow.test {
+            awaitItem() shouldBe null
+        }
     }
 
     @Test
@@ -114,6 +125,7 @@ internal class HomeViewModelTest {
 
     private fun createSystem(): HomeViewModel = HomeViewModel(
         repository = repository,
-        observeLeaguesWithPlayersUseCase = observeUseCase
+        observeLeaguesWithPlayersUseCase = observeUseCase,
+        logger = logger,
     )
 }

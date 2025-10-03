@@ -87,4 +87,5 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.coroutinesTest)
     testImplementation(libs.pagingTesting)
+    testImplementation(libs.turbine)
 }

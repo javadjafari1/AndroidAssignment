@@ -1,11 +1,13 @@
 package ir.miare.androidcodechallenge.ui
 
+import app.cash.turbine.test
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations
 import io.mockk.coJustRun
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import ir.miare.androidcodechallenge.core.Logger
 import ir.miare.androidcodechallenge.data.TestCoroutineRule
 import ir.miare.androidcodechallenge.domain.models.db.PlayerEntity
 import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
@@ -28,6 +30,9 @@ internal class FollowedListViewModelTest {
 
     @RelaxedMockK
     private lateinit var repository: Repository
+
+    @RelaxedMockK
+    private lateinit var logger: Logger
 
     private val fakeList = listOf(
         PlayerItemUiModel(
@@ -69,10 +74,14 @@ internal class FollowedListViewModelTest {
         viewModel.getPlayerWithId(1)
         advanceUntilIdle()
 
-        viewModel.selectedPlayerToShow shouldBe fakePlayer
+        viewModel.selectedPlayerToShow.test {
+            awaitItem() shouldBe fakePlayer
+        }
 
         viewModel.removeSelectedPlayer()
-        viewModel.selectedPlayerToShow shouldBe null
+        viewModel.selectedPlayerToShow.test {
+            awaitItem() shouldBe null
+        }
     }
 
     @Test
@@ -99,7 +108,8 @@ internal class FollowedListViewModelTest {
 
     private fun createSystem(): FollowedListViewModel {
         return FollowedListViewModel(
-            repository = repository
+            repository = repository,
+            logger = logger
         )
     }
 }

@@ -20,6 +20,7 @@ room = "2.8.1"
 serialization = "1.9.0"
 targetSDK = "36"
 timber = "5.0.1"
+turbine = "1.2.1"
 
 [libraries]
 activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
@@ -45,6 +46,7 @@ roomPaging = { module = "androidx.room:room-paging", version.ref = "room" }
 roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
