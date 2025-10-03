@@ -2,4 +2,5 @@
 <resources>
     <string name="open_sorting_options">Open Sorting Options</string>
     <string name="open_followed_list_screen">Open Followed List Screen</string>
+    <string name="navigate_back">Navigate back</string>
 </resources>

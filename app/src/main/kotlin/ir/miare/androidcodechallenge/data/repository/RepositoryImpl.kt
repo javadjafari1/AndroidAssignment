@@ -12,10 +12,13 @@ import ir.miare.androidcodechallenge.data.model.PlayerItemDataModel
 import ir.miare.androidcodechallenge.data.remote.RemoteDataSource
 import ir.miare.androidcodechallenge.data.util.RefreshOnlyRemoteMediator
 import ir.miare.androidcodechallenge.domain.models.SortType
+import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
+import ir.miare.androidcodechallenge.domain.models.ui.PlayerItemUiModel
 import ir.miare.androidcodechallenge.domain.repository.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlin.math.round
 
 internal class RepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
@@ -39,6 +42,10 @@ internal class RepositoryImpl(
             teams = teams,
             players = players,
         )
+    }
+
+    override fun observePlayerWithTeam(id: Int): Flow<PlayerWithTeamAndFollowed?> {
+        return localDataSource.observePlayerWithTeam(id)
     }
 
     override fun observeLeaguesWithPlayers(
@@ -80,7 +87,7 @@ internal class RepositoryImpl(
                                 rank = row.leagueRank,
                                 name = row.leagueName,
                                 averageGoal = (row.avgGoals ?: 0.0).let {
-                                    kotlin.math.round(it * 100) / 100.0
+                                    round(it * 100) / 100.0
                                 }
                             )
                         }
@@ -106,5 +113,28 @@ internal class RepositoryImpl(
                 }
             }
             .filterNotNull()
+    }
+
+    override suspend fun followPlayer(id: Int) {
+        localDataSource.followPlayer(id)
+    }
+
+    override suspend fun unfollowPlayer(id: Int) {
+        localDataSource.unfollowPlayer(id)
+    }
+
+    override fun observeFollowedPlayers(): Flow<List<PlayerItemUiModel>> {
+        return localDataSource.observeFollowedPlayers()
+            .map { list ->
+                list.map { player ->
+                    PlayerItemUiModel(
+                        id = player.playerEntity.id,
+                        name = player.playerEntity.name,
+                        teamRank = player.teamEntity.rank,
+                        goals = player.playerEntity.totalGoal,
+                        teamName = player.teamEntity.name
+                    )
+                }
+            }
     }
 }

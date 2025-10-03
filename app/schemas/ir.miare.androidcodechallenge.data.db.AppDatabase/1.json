@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "93f1abde712b57742328982cccb0a6d9",
+    "identityHash": "909c3985c28cd7df934ac1f635a53068",
     "entities": [
       {
         "tableName": "leagues",
@@ -165,11 +165,29 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "followed",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`player_id` INTEGER NOT NULL, PRIMARY KEY(`player_id`))",
+        "fields": [
+          {
+            "fieldPath": "playerId",
+            "columnName": "player_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "player_id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '93f1abde712b57742328982cccb0a6d9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '909c3985c28cd7df934ac1f635a53068')"
     ]
   }
 }

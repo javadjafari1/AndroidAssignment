@@ -2,6 +2,7 @@ package ir.miare.androidcodechallenge.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import ir.miare.androidcodechallenge.domain.models.db.FollowedEntity
 import ir.miare.androidcodechallenge.domain.models.db.LeagueEntity
 import ir.miare.androidcodechallenge.domain.models.db.PlayerEntity
 import ir.miare.androidcodechallenge.domain.models.db.TeamEntity
@@ -10,7 +11,8 @@ import ir.miare.androidcodechallenge.domain.models.db.TeamEntity
     entities = [
         LeagueEntity::class,
         PlayerEntity::class,
-        TeamEntity::class
+        TeamEntity::class,
+        FollowedEntity::class,
     ],
     version = 1
 )

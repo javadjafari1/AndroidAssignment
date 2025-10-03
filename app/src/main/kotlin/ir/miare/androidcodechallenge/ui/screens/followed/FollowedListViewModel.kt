@@ -1,55 +1,31 @@
-package ir.miare.androidcodechallenge.ui.screens.home
+package ir.miare.androidcodechallenge.ui.screens.followed
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import ir.miare.androidcodechallenge.domain.models.SortType
 import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
 import ir.miare.androidcodechallenge.domain.repository.Repository
-import ir.miare.androidcodechallenge.domain.usecase.ObserveLeaguesWithPlayersUseCase
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-internal class HomeViewModel(
+internal class FollowedListViewModel(
     private val repository: Repository,
-    private val observeLeaguesWithPlayersUseCase: ObserveLeaguesWithPlayersUseCase,
 ) : ViewModel() {
-
-    var currentSortType by mutableStateOf(SortType.None)
-        private set
 
     var selectedPlayerToShow: PlayerWithTeamAndFollowed? by mutableStateOf(null)
         private set
 
-    val items = snapshotFlow { currentSortType }
-        .flatMapLatest { observeLeaguesWithPlayersUseCase(it) }
-        .cachedIn(viewModelScope)
+    val players = repository.observeFollowedPlayers()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = PagingData.empty(
-                sourceLoadStates = LoadStates(
-                    refresh = LoadState.Loading,
-                    prepend = LoadState.NotLoading(false),
-                    append = LoadState.NotLoading(false),
-                )
-            )
+            initialValue = listOf()
         )
-
-    fun updateSortType(sortType: SortType) {
-        currentSortType = sortType
-    }
 
     fun getPlayerWithId(id: Int) {
         runCatching {

@@ -31,10 +31,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import ir.miare.androidcodechallenge.R
 import ir.miare.androidcodechallenge.domain.models.SortType
+import ir.miare.androidcodechallenge.domain.models.db.PlayerWithTeamAndFollowed
 import ir.miare.androidcodechallenge.domain.models.ui.LeagueItemUiModel
 import ir.miare.androidcodechallenge.domain.models.ui.ListItemUiModel
 import ir.miare.androidcodechallenge.domain.models.ui.PlayerItemUiModel
 import ir.miare.androidcodechallenge.ui.navigation.AppScreens
+import ir.miare.androidcodechallenge.ui.screens.home.components.DetailBottomSheet
 import ir.miare.androidcodechallenge.ui.screens.home.components.LeagueItemContent
 import ir.miare.androidcodechallenge.ui.screens.home.components.PlayerItemContent
 import ir.miare.androidcodechallenge.ui.screens.home.components.SortBottomSheet
@@ -62,6 +64,7 @@ internal fun HomeScreen(
     val pagingItems = viewModel.items.collectAsLazyPagingItems()
     var isSortBottomSheetShowing by rememberSaveable { mutableStateOf(false) }
     val sortSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val detailSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     HomeScreen(
         pagingItems = pagingItems,
@@ -83,6 +86,13 @@ internal fun HomeScreen(
                 }
         },
         openSortBottomSheet = { isSortBottomSheetShowing = true },
+        selectedPlayer = viewModel.selectedPlayerToShow,
+        detailSheetState = detailSheetState,
+        onDetailBottomSheetDismissRequest = { viewModel.removeSelectedPlayer() },
+        onPlayerClicked = { viewModel.getPlayerWithId(it) },
+        onFollowClicked = { shouldFollow, id ->
+            viewModel.updateFollowStatus(shouldFollow, id)
+        }
     )
 }
 
@@ -90,12 +100,17 @@ internal fun HomeScreen(
 internal fun HomeScreen(
     pagingItems: LazyPagingItems<ListItemUiModel>,
     currentSortType: SortType,
-    isSortBottomSheetShowing: Boolean,
+    selectedPlayer: PlayerWithTeamAndFollowed?,
     sortSheetState: SheetState,
+    isSortBottomSheetShowing: Boolean,
+    detailSheetState: SheetState,
     onSortBottomSheetDismissRequest: () -> Unit,
+    onDetailBottomSheetDismissRequest: () -> Unit,
     onSortTypeChanged: (SortType) -> Unit,
     openSortBottomSheet: () -> Unit,
     navigateToFollowedList: () -> Unit,
+    onFollowClicked: (Boolean, Int) -> Unit,
+    onPlayerClicked: (Int) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -105,6 +120,20 @@ internal fun HomeScreen(
             selectedSort = currentSortType,
             onChangedSort = onSortTypeChanged,
             onDismissRequest = onSortBottomSheetDismissRequest,
+        )
+    }
+
+    if (selectedPlayer != null) {
+        DetailBottomSheet(
+            sheetState = detailSheetState,
+            player = selectedPlayer,
+            onFollowClicked = { shouldFollow ->
+                onFollowClicked(
+                    shouldFollow,
+                    selectedPlayer.playerEntity.id
+                )
+            },
+            onDismissRequest = onDetailBottomSheetDismissRequest
         )
     }
 
@@ -179,9 +208,7 @@ internal fun HomeScreen(
                                         )
                                     ),
                                     player = item,
-                                    onClick = {
-                                        // TODO open about bottomSheet
-                                    }
+                                    onClick = { onPlayerClicked(item.id) }
                                 )
                             }
                         }

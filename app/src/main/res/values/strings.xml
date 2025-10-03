@@ -10,4 +10,7 @@
     <string name="name">Name: %1$s</string>
     <string name="goals">Goals: %1$s</string>
     <string name="team_name">Team name: %1$s</string>
+    <string name="followed_list">Followed List</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">Follow</string>
 </resources>
