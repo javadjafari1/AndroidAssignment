@@ -5,9 +5,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
@@ -149,8 +147,7 @@ internal fun HomeScreen(
                 actions = {
                     IconButton(onClick = openSortBottomSheet) {
                         Icon(
-                            // TODO fix icon
-                            imageVector = Icons.Filled.Menu,
+                            painter = painterResource(R.drawable.ic_sort),
                             contentDescription = stringResource(R.string.open_sorting_options),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -158,8 +155,7 @@ internal fun HomeScreen(
 
                     IconButton(onClick = navigateToFollowedList) {
                         Icon(
-                            // TODO fix icon
-                            imageVector = Icons.Filled.Person,
+                            painter = painterResource(R.drawable.ic_followed),
                             contentDescription = stringResource(R.string.open_followed_list_screen),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
