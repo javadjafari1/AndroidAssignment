@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import ir.miare.androidcodechallenge.ui.navigation.AppScreens
@@ -20,6 +23,7 @@ internal class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 NavHost(
+                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
                     navController = navController,
                     startDestination = AppScreens.Home
                 ) {

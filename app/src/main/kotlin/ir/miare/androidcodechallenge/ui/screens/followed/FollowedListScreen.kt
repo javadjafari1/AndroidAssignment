@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -124,7 +125,8 @@ internal fun FollowedListScreen(
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .fillMaxSize(),
             contentPadding = PaddingValues(
                 vertical = 8.dp,
             )
