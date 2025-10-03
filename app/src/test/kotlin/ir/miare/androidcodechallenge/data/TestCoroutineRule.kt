@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestDispatcher

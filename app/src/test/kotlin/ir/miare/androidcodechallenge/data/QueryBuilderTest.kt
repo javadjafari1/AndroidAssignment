@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.data
 
 import io.kotest.matchers.shouldBe
 import ir.miare.androidcodechallenge.data.util.QueryBuilder

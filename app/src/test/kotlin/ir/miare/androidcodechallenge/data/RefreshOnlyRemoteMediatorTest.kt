@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.data
 
 import androidx.paging.LoadType
 import androidx.paging.PagingConfig
