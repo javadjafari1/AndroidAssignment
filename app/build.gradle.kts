@@ -79,4 +79,9 @@ dependencies {
     debugImplementation(libs.composeNavigation)
 
     detektPlugins(libs.detektFormatting)
+
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotestAssertion)
+    testImplementation(libs.junit)
+    testImplementation(libs.coroutinesTest)
 }
