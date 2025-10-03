@@ -8,8 +8,12 @@ composeMaterialIcons = "1.7.8"
 composeNavigation = "2.9.5"
 coroutines = "1.10.2"
 detekt = "1.23.8"
+koin = "4.1.1"
 kotlin = "2.2.20"
+ksp = "2.2.20-2.0.3"
 minSDK = "24"
+paging = "3.3.6"
+room = "2.8.1"
 serialization = "1.9.0"
 targetSDK = "36"
 
@@ -22,7 +26,14 @@ composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 coroutinesAndroid = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koinAndroidxCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koinCore = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+pagingCompose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+roomPaging = { module = "androidx.room:room-paging", version.ref = "room" }
+roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 [plugins]
@@ -31,4 +42,6 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

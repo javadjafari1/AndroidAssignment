@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     alias(libs.plugins.serialization)
 }
 
@@ -26,8 +28,8 @@ android {
         release {
             isMinifyEnabled = true
             proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
         }
     }
@@ -41,7 +43,18 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            listOf(
+                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                "-opt-in=androidx.paging.ExperimentalPagingApi",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            )
+        )
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
@@ -52,7 +65,18 @@ dependencies {
     implementation(libs.coroutinesAndroid)
     implementation(libs.composeMaterialIcons)
     implementation(libs.serialization)
+
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
+    implementation(libs.koinAndroidxCompose)
+
+    implementation(libs.pagingCompose)
+    implementation(libs.roomRuntime)
+    implementation(libs.roomPaging)
+    ksp(libs.roomCompiler)
+
     debugImplementation(libs.composeUiTooling)
     debugImplementation(libs.composeNavigation)
+
     detektPlugins(libs.detektFormatting)
 }

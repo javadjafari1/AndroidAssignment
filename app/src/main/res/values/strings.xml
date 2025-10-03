@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Miare Challenge</string>
+    <string name="sort_type_team_and_league_rank">Team And League Rank</string>
+    <string name="sort_type_most_goals_by_players">Most Goals By Players</string>
+    <string name="sort_type_average_goal_per_match_of_leagues">Average Goal Per Match Of Leagues</string>
+    <string name="sort_type_none">None</string>
+    <string name="team_rank">Team rank: %1$s</string>
+    <string name="league_rank">League rank: %1$s</string>
+    <string name="average_goal_per_game">Average Goal per game: %1$s</string>
+    <string name="name">Name: %1$s</string>
+    <string name="goals">Goals: %1$s</string>
+    <string name="team_name">Team name: %1$s</string>
 </resources>
